@@ -838,11 +838,38 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
                 case GDK_KEY_d:
                     move(vte, &info->select, 0, vte_terminal_get_row_count(vte) / 2);
                     break;
+//                case GDK_KEY_b:
+//                    move(vte, &info->select, 0, -(vte_terminal_get_row_count(vte) - 1));
+//                    break;
+//                case GDK_KEY_f:
+//                    move(vte, &info->select, 0, vte_terminal_get_row_count(vte) - 1);
+//                    break;
+                case GDK_KEY_a:
+                    set_cursor_column(vte, &info->select, 0);
+                    break;
+                case GDK_KEY_e:
+                    move_to_eol(vte, &info->select);
+                    break;
+                case GDK_KEY_s:
+                    overlay_show(&info->panel, overlay_mode::search, vte);
+                    break;
+                case GDK_KEY_r:
+                    overlay_show(&info->panel, overlay_mode::rsearch, vte);
+                    break;
                 case GDK_KEY_b:
-                    move(vte, &info->select, 0, -(vte_terminal_get_row_count(vte) - 1));
+                    move(vte, &info->select, -1, 0);
+                    break;
+                case GDK_KEY_n:
+                    move(vte, &info->select, 0, 1);
+                    break;
+                case GDK_KEY_p:
+                    move(vte, &info->select, 0, -1);
                     break;
                 case GDK_KEY_f:
-                    move(vte, &info->select, 0, vte_terminal_get_row_count(vte) - 1);
+                    move(vte, &info->select, 1, 0);
+                    break;
+                case GDK_KEY_space:
+                    toggle_visual(vte, &info->select, vi_mode::visual);
                     break;
             }
             return TRUE;
@@ -855,6 +882,34 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
                 case GDK_KEY_Right:
                     move_forward_word(vte, &info->select);
                     return TRUE;
+
+            }
+        }
+        if (modifiers == (GDK_MOD1_MASK)) {
+            switch (event->keyval) {
+                case GDK_KEY_b:
+                    move_backward_blank_word(vte, &info->select);
+                    break;
+                case GDK_KEY_f:
+                    move_forward_blank_word(vte, &info->select);
+                    break;
+                case GDK_KEY_p:
+                    move(vte, &info->select, 0, -(vte_terminal_get_row_count(vte) / 2));
+                    break;
+                case GDK_KEY_n:
+                    move(vte, &info->select, 0, vte_terminal_get_row_count(vte) / 2);
+                    break;
+                case GDK_KEY_c:
+                    vte_terminal_copy_clipboard(vte);
+                    break;
+                case GDK_KEY_s:
+                    vte_terminal_search_find_next(vte);
+                    vte_terminal_copy_primary(vte);
+                    break;
+                case GDK_KEY_r:
+                    vte_terminal_search_find_previous(vte);
+                    vte_terminal_copy_primary(vte);
+                    break;
             }
         }
         switch (event->keyval) {
@@ -976,6 +1031,15 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
         }
         return TRUE;
     }
+
+    if (modifiers == (GDK_MOD1_MASK)) {
+        switch (event->keyval) {
+            case GDK_KEY_c:
+                vte_terminal_copy_clipboard(vte);
+                return TRUE;
+        }
+    }
+
     if (modifiers == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
         switch (gdk_keyval_to_lower(event->keyval)) {
             case GDK_KEY_plus:
@@ -1035,6 +1099,9 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
                 return TRUE;
             case GDK_KEY_equal:
                 reset_font_scale(vte, info->config.font_scale);
+                return TRUE;
+            case GDK_KEY_y:
+                vte_terminal_paste_clipboard(vte);
                 return TRUE;
             default:
                 if (modify_key_feed(event, info, modify_table))
