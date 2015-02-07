@@ -921,19 +921,19 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
                 info->panel.url_list.clear();
                 break;
             case GDK_KEY_Left:
-            case GDK_KEY_h:
+            case GDK_KEY_n:
                 move(vte, &info->select, -1, 0);
                 break;
             case GDK_KEY_Down:
-            case GDK_KEY_j:
+            case GDK_KEY_e:
                 move(vte, &info->select, 0, 1);
                 break;
             case GDK_KEY_Up:
-            case GDK_KEY_k:
+            case GDK_KEY_i:
                 move(vte, &info->select, 0, -1);
                 break;
             case GDK_KEY_Right:
-            case GDK_KEY_l:
+            case GDK_KEY_o:
                 move(vte, &info->select, 1, 0);
                 break;
             case GDK_KEY_b:
@@ -1000,11 +1000,11 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
             case GDK_KEY_question:
                 overlay_show(&info->panel, overlay_mode::rsearch, vte);
                 break;
-            case GDK_KEY_n:
+            case GDK_KEY_h:
                 vte_terminal_search_find_next(vte);
                 vte_terminal_copy_primary(vte);
                 break;
-            case GDK_KEY_N:
+            case GDK_KEY_H:
                 vte_terminal_search_find_previous(vte);
                 vte_terminal_copy_primary(vte);
                 break;
@@ -1014,7 +1014,7 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
             case GDK_KEY_U:
                 search(vte, url_regex, true);
                 break;
-            case GDK_KEY_o:
+            case GDK_KEY_l:
                 open_selection(info->config.browser, vte);
                 break;
             case GDK_KEY_Return:
