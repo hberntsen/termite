@@ -1095,9 +1095,6 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
             case GDK_KEY_equal:
                 reset_font_scale(vte, info->config.font_scale);
                 return TRUE;
-            case GDK_KEY_y:
-                vte_terminal_paste_clipboard(vte);
-                return TRUE;
             default:
                 if (modify_key_feed(event, info, modify_table))
                     return TRUE;
