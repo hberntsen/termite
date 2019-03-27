@@ -967,13 +967,13 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
             case GDK_KEY_G:
                 move_to_row_start(vte, &info->select, last_row(vte));
                 break;
-            case GDK_KEY_H:
+            case GDK_KEY_N:
                 move_to_row_start(vte, &info->select, top_row(vte));
                 break;
             case GDK_KEY_M:
                 move_to_row_start(vte, &info->select, middle_row(vte));
                 break;
-            case GDK_KEY_L:
+            case GDK_KEY_O:
                 move_to_row_start(vte, &info->select, bottom_row(vte));
                 break;
             case GDK_KEY_v:
