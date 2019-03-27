@@ -943,10 +943,10 @@ gboolean key_press_cb(VteTerminal *vte, GdkEventKey *event, keybind_info *info) 
             case GDK_KEY_W:
                 move_forward_blank_word(vte, &info->select);
                 break;
-            case GDK_KEY_e:
+            case GDK_KEY_j:
                 move_forward_end_word(vte, &info->select);
                 break;
-            case GDK_KEY_E:
+            case GDK_KEY_J:
                 move_forward_end_blank_word(vte, &info->select);
                 break;
             case GDK_KEY_0:
